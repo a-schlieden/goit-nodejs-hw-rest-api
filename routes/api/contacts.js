@@ -1,32 +1,35 @@
-const express = require('express')
-const Joi = require('joi')
+const express = require("express");
+const Joi = require("joi");
 
-const contactsSchema = Jou.object({
+const contactsSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ua'] } }),
-  phone: Joi.number().required()
-})
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net", "ua"] },
+  }),
+  phone: Joi.number().required(),
+});
 const {
   listContacts,
   getContactById,
   removeContact,
   addContact,
-  updateContact } = require('../../models/contacts')
+  updateContact,
+} = require("../../models/contacts");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const contactsAll = await listContacts();
     res.json({
-      staus: 'success',
+      staus: "success",
       code: 200,
       data: {
         result: contactsAll,
       },
-    })
-  }
-  catch (error) {
+    });
+  } catch (error) {
     // res.status(500).json({
     //   staus: 'error',
     //   code: 500,
@@ -34,74 +37,71 @@ router.get('/', async (req, res, next) => {
     // })
     next(error);
   }
+});
 
-})
-
-router.get('/:contactId', async (req, res, next) => {
+router.get("/:contactId", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const contactById = await getContactById(id);
+    const { contactId } = req.params;
+    const contactById = await getContactById(contactId);
     if (!contactById) {
-      const err = new Error(`Contact with id ${id} not found`);
+      const err = new Error(`Contact with id ${contactId} not found`);
       err.staus = 404;
       throw err;
     }
     res.json({
-      staus: 'success',
+      staus: "success",
       code: 200,
       data: {
         result: contactById,
       },
-    })
+    });
   } catch (error) {
     next(error);
   }
-})
+});
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const { error } = contactsSchema.validate(req.body)
+    const { error } = contactsSchema.validate(req.body);
     if (error) {
       error.status = 400;
       throw error;
     }
     const addNewContact = await addContact(req.body);
     res.status(201).json({
-      staus: 'success',
+      staus: "success",
       code: 201,
       data: {
         result: addNewContact,
       },
-    })
-  }
-  catch (error) {
+    });
+  } catch (error) {
     next(error);
   }
-})
+});
 
-router.delete('/:contactId', async (req, res, next) => {
+router.delete("/:contactId", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const removeContactById = removeContact(id)
+    const removeContactById = removeContact(id);
     if (!removeContactById) {
       const err = new Error(`Contact with id ${id} not found`);
       err.staus = 404;
       throw err;
     }
     res.json({
-      staus: 'success',
+      staus: "success",
       code: 200,
-      message: 'contact deleted'
-    })
-  }
-  catch (error) {
+      message: "contact deleted",
+    });
+  } catch (error) {
     next(error);
   }
-})
+});
 
-router.put('/:contactId', async (req, res, next) => {
+router.put("/:contactId", async (req, res, next) => {
   try {
-    const { error } = contactsSchema.validate(req.body)
+    const { error } = contactsSchema.validate(req.body);
     if (error) {
       error.status = 400;
       throw error;
@@ -114,16 +114,15 @@ router.put('/:contactId', async (req, res, next) => {
       throw err;
     }
     res.json({
-      staus: 'success',
+      staus: "success",
       code: 200,
       data: {
         result: updContactById,
       },
-    })
-  }
-  catch (error) {
+    });
+  } catch (error) {
     next(error);
   }
-})
+});
 
-module.exports = router
+module.exports = router;
