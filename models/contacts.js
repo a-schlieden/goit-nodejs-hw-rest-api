@@ -31,8 +31,9 @@ const removeContact = async (contactId) => {
   if (index === -1) {
     return null;
   }
-  parsContacts.splice(index, 1);
+  const [tester] = parsContacts.splice(index, 1);
   await fs.writeFile(contactsPath, JSON.stringify(parsContacts));
+  return tester;
 };
 
 const addContact = async (body) => {
@@ -43,13 +44,13 @@ const addContact = async (body) => {
   return newContact;
 };
 
-const updateContact = async (contactId, body) => {
+const updateContact = async (id, body) => {
   const parsContacts = await parsData();
-  const index = parsContacts.findIndex((item) => item.id === contactId);
+  const index = parsContacts.findIndex((item) => item.id === id);
   if (index === -1) {
     return null;
   }
-  parsContacts[index] = { ...body, contactId };
+  parsContacts[index] = { ...body, id };
   await fs.writeFile(contactsPath, JSON.stringify(parsContacts));
   return parsContacts[index];
 };

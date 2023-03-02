@@ -24,6 +24,9 @@ router.get("/", contactsControllers.getAllContacts);
 
 router.get("/:contactId", contactsControllers.getById);
 
+//add
+// functioniert !
+
 router.post("/", async (req, res, next) => {
   try {
     const { error } = contactsSchema.validate(req.body);
@@ -44,12 +47,16 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//delete
+// functioniert !
+
 router.delete("/:contactId", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const removeContactById = removeContact(id);
+    const { contactId } = req.params;
+    const removeContactById = await removeContact(contactId);
+    console.log("contactId ", contactId);
     if (!removeContactById) {
-      const err = new Error(`Contact with id ${id} not found`);
+      const err = new Error(`Contact with id ${contactId} not found`);
       err.staus = 404;
       throw err;
     }
@@ -57,11 +64,17 @@ router.delete("/:contactId", async (req, res, next) => {
       staus: "success",
       code: 200,
       message: "contact deleted",
+      data: {
+        result: removeContactById,
+      },
     });
   } catch (error) {
     next(error);
   }
 });
+
+//update
+// functioniert !
 
 router.put("/:contactId", async (req, res, next) => {
   try {
@@ -70,10 +83,10 @@ router.put("/:contactId", async (req, res, next) => {
       error.status = 400;
       throw error;
     }
-    const { id } = req.params;
-    const updContactById = updateContact(id, req.body);
+    const { contactId } = req.params;
+    const updContactById = await updateContact(contactId, req.body);
     if (!updContactById) {
-      const err = new Error(`Contact with id ${id} not found`);
+      const err = new Error(`Contact with id ${contactId} not found`);
       err.staus = 404;
       throw err;
     }
