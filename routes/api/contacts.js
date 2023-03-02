@@ -10,8 +10,7 @@ const contactsSchema = Joi.object({
   phone: Joi.number().required(),
 });
 const {
-  listContacts,
-  getContactById,
+  //getContactById,
   removeContact,
   addContact,
   updateContact,
@@ -19,46 +18,11 @@ const {
 
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
-  try {
-    const contactsAll = await listContacts();
-    res.json({
-      staus: "success",
-      code: 200,
-      data: {
-        result: contactsAll,
-      },
-    });
-  } catch (error) {
-    // res.status(500).json({
-    //   staus: 'error',
-    //   code: 500,
-    //   message: 'servser not found'
-    // })
-    next(error);
-  }
-});
+const { contactsControllers } = require("../../controllers");
 
-router.get("/:contactId", async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const contactById = await getContactById(contactId);
-    if (!contactById) {
-      const err = new Error(`Contact with id ${contactId} not found`);
-      err.staus = 404;
-      throw err;
-    }
-    res.json({
-      staus: "success",
-      code: 200,
-      data: {
-        result: contactById,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/", contactsControllers.getAllContacts);
+
+router.get("/:contactId", contactsControllers.getById);
 
 router.post("/", async (req, res, next) => {
   try {
