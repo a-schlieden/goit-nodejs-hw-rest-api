@@ -1,14 +1,59 @@
-// const fs = require('fs/promises')
+const fs = require("fs").promises;
 
-const listContacts = async () => {}
+const path = require("path");
+const uuid = require("uuid");
 
-const getContactById = async (contactId) => {}
+const contactsPath = path.resolve("./models/contacts.json");
 
-const removeContact = async (contactId) => {}
+const parsData = async () => {
+  const contactsStr = await fs.readFile(contactsPath, "utf8");
+  const contactsArr = JSON.parse(contactsStr);
+  return contactsArr;
+};
 
-const addContact = async (body) => {}
+const listContacts = async () => {
+  const parsContacts = await parsData();
+  return parsContacts;
+};
 
-const updateContact = async (contactId, body) => {}
+const getContactById = async (contactId) => {
+  const parsContacts = await parsData();
+  const contact = parsContacts.find((item) => item.id === contactId);
+  if (!contact) {
+    return null;
+  }
+  return contact;
+};
+
+const removeContact = async (contactId) => {
+  const parsContacts = await parsData();
+  const index = parsContacts.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+  const [tester] = parsContacts.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(parsContacts));
+  return tester;
+};
+
+const addContact = async (body) => {
+  const newContact = { ...body, id: uuid.v4() };
+  const parsContacts = await parsData();
+  parsContacts.push(newContact);
+  await fs.writeFile(contactsPath, JSON.stringify(parsContacts));
+  return newContact;
+};
+
+const updateContact = async (id, body) => {
+  const parsContacts = await parsData();
+  const index = parsContacts.findIndex((item) => item.id === id);
+  if (index === -1) {
+    return null;
+  }
+  parsContacts[index] = { ...body, id };
+  await fs.writeFile(contactsPath, JSON.stringify(parsContacts));
+  return parsContacts[index];
+};
 
 module.exports = {
   listContacts,
@@ -16,4 +61,4 @@ module.exports = {
   removeContact,
   addContact,
   updateContact,
-}
+};
