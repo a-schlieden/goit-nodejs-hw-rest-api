@@ -3,6 +3,8 @@ const Joi = require("joi");
 
 const { addContact } = require("../../models/contacts");
 
+const { Contact } = require("../../models/contact")
+
 const contactsSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email({
@@ -20,6 +22,7 @@ const addNew = async (req, res, next) => {
             throw error;
         }
         const addNewContact = await addContact(req.body);
+        const addNewContact = await Contact.create(req.body);
         res.status(201).json({
             status: "success",
             code: 201,

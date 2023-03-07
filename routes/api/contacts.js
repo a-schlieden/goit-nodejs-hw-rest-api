@@ -24,4 +24,8 @@ router.delete("/:contactId", contactsControllers.remove);
 
 router.put("/:contactId", contactsControllers.update);
 
+//updete field favorite
+
+router.put("/:contactId/favorite", contactsControllers.updateByFavorite);
+
 module.exports = router;
