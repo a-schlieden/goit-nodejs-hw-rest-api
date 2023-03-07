@@ -10,11 +10,11 @@ const remove = async (req, res, next) => {
         console.log("contactId ", contactId);
         if (!removeContactById) {
             const err = new Error(`Contact with id ${contactId} not found`);
-            err.staus = 404;
+            err.status = 404;
             throw err;
         }
         res.json({
-            staus: "success",
+            status: "success",
             code: 200,
             message: "contact deleted",
             data: {

@@ -5,7 +5,7 @@ const getAllContacts = async (req, res, next) => {
     try {
         const contactsAll = await listContacts();
         res.json({
-            staus: "success",
+            status: "success",
             code: 200,
             data: {
                 result: contactsAll,

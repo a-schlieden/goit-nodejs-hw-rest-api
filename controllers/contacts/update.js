@@ -23,11 +23,11 @@ const update = async (req, res, next) => {
         const updContactById = await updateContact(contactId, req.body);
         if (!updContactById) {
             const err = new Error(`Contact with id ${contactId} not found`);
-            err.staus = 404;
+            err.status = 404;
             throw err;
         }
         res.json({
-            staus: "success",
+            status: "success",
             code: 200,
             data: {
                 result: updContactById,

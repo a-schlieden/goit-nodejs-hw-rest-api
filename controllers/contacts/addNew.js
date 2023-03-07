@@ -21,7 +21,7 @@ const addNew = async (req, res, next) => {
         }
         const addNewContact = await addContact(req.body);
         res.status(201).json({
-            staus: "success",
+            status: "success",
             code: 201,
             data: {
                 result: addNewContact,
