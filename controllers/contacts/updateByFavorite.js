@@ -1,7 +1,6 @@
 
 //const Joi = require("joi");
 
-//const { updateContact } = require("../../models/contacts");
 const { Contact, schemas } = require("../../models/contact");
 
 // const contactsSchema = Joi.object({
@@ -21,7 +20,6 @@ const updateByFavorite = async (req, res, next) => {
             throw error;
         }
         const { contactId } = req.params;
-        //const updContactByFavorite = await updateContact(contactId, req.body);
         const updContactByFavorite = await Contact.findByIdAndUpdate(contactId, req.body, { new: true });
         if (!updContactByFavorite) {
             const err = new Error(`Contact with id ${contactId} not found`);
