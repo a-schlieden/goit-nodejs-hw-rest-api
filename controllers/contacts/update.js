@@ -1,15 +1,4 @@
-//const Joi = require("joi");
-
 const { Contact, schemas } = require("../../models/contact");
-
-// const contactsSchema = Joi.object({
-//     name: Joi.string().required(),
-//     email: Joi.string().email({
-//         minDomainSegments: 2,
-//         tlds: { allow: ["com", "net", "ua"] },
-//     }).required(),
-//     phone: Joi.number().required(),
-// });
 
 const update = async (req, res, next) => {
   try {
