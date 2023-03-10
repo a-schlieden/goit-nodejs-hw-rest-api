@@ -1,8 +1,10 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const { validationErr } = require("../helpers")
+//const { validationErr } = require("../helpers")
 
-const phoneRegexp = /^(d{4}) d{3}-d{2}-d{2}$/;
+// hw04
+
+//const phoneRegexp = /^(d{4}) d{3}-d{2}-d{2}$/;
 
 const contactSchema = new Schema({
     name: {
@@ -22,7 +24,15 @@ const contactSchema = new Schema({
     },
 }, { versionKey: false, timestamps: true })
 
-contactSchema.post("save", validationErr);
+
+// При добавлении юзера чтобы если не все поля заполнены выдавало 404. 
+// Для начала убрать строку contactSchema.post…… (уже закоментил) 
+// если при добавлении юзера будет все равно 404 то оставить закоменченой. 
+// Если будет другое то в файле validationError раскоментить
+// 2 if и закоментить else или ещё что нибудь сделать )))
+
+
+//contactSchema.post("save", validationErr);
 
 const addContactSchema = Joi.object({
     name: Joi.string().required(),
