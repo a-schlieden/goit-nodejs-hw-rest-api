@@ -14,7 +14,7 @@ const updateByFavorite = async (req, res, next) => {
       { new: true }
     );
     if (!updContactByFavorite) {
-      const err = new Error(`Contact with id ${contactId} not found`);
+      const err = new Error(`Not found`);
       err.status = 404;
       throw err;
     }
