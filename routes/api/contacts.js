@@ -3,11 +3,11 @@ const express = require("express");
 const router = express.Router();
 
 const { contactsControllers } = require("../../controllers");
-const { isValidId } = require("../../middlewares");
+const { userAuthInfo, isValidId } = require("../../middlewares");
 
 //all
 
-router.get("/", contactsControllers.getAllContacts);
+router.get("/", userAuthInfo, contactsControllers.getAllContacts);
 
 //byId
 
@@ -15,7 +15,7 @@ router.get("/:contactId", isValidId, contactsControllers.getById);
 
 //add
 
-router.post("/", contactsControllers.addNew);
+router.post("/", userAuthInfo, contactsControllers.addNew);
 
 //delete
 

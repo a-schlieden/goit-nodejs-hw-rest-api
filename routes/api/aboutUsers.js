@@ -2,11 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
-const { contactsControllers } = require("../../controllers");
-const { isValidId } = require("../../middlewares");
+const { authControllers } = require("../../controllers");
 
-//all
+//get current User info 
 
-router.get("/current", contactsControllers.getAllContacts);
+router.get("/current", userAuthInfo, authControllers.getCurrentUser);
 
 module.exports = router;
