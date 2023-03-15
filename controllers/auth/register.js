@@ -1,5 +1,6 @@
 
-const { Contact, schemas } = require("../../models/user");
+const bcrypt = require("bcryptjs");
+const { User, schemas } = require("../../models/user");
 
 const register = async (req, res, next) => {
     try {
@@ -8,14 +9,16 @@ const register = async (req, res, next) => {
             error.status = 400;
             throw error;
         }
-        const { email, subscription } = req.body;
-        const user = await User.findOne({ email });
-        if (user) {
+        const { email, subscription, password } = req.body;
+        const userByMail = await User.findOne({ email });
+        if (userByMail) {
+            const error = new Error(`Email in use`);
             error.status = 409;
-            error.message = "Email in use";
             throw error;
         }
-        const result = await User.create({ email, subscription });
+        /// muss ganz User sein !!!!!  PRÜFEN !!!!!! 
+        const hashPswd = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+        const result = await User.create({ email, subscription, password = hashPswd });
         res.status(201).json({
             status: "success",
             code: 201,
