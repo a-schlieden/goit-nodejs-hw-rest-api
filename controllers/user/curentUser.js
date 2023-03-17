@@ -1,7 +1,8 @@
-const { Contact, schemas } = require("../../models/contact");
+const { User, schemas } = require("../../models/user");
+//const { userAuthInfo } = require("../../middlewares");
 
-const getCurrentUser = async (req, res) => {
-    const { name, email } = req.user;
+const getCurrentUser = async (req, res, next) => {
+    const { email, name } = req.user;
     res.json({
         status: "success",
         code: 200,
@@ -10,7 +11,8 @@ const getCurrentUser = async (req, res) => {
                 name,
                 email,
             }
-        }
+        },
     })
 }
+
 module.exports = getCurrentUser;

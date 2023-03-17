@@ -27,7 +27,7 @@ const login = async (req, res, next) => {
         }
         const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1d" });
         /// muss ganz User sein !!!!!  PRÜFEN !!!!!! 
-
+        User.findByIdAndUpdate(userByMail._id, { token });
         res.json({
             status: "success",
             code: 200,

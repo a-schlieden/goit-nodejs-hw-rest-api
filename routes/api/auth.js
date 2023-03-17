@@ -3,15 +3,15 @@ const express = require("express");
 const router = express.Router();
 
 const { authControllers } = require("../../controllers");
-const { userAuthInfo, isValidId } = require("../../middlewares");
+const { userAuthInfo } = require("../../middlewares");
 
 // User register
 
-router.post("/register", userAuthInfo, authControllers.register);
+router.post("/register", authControllers.register);
 
 // User login
 
-router.post("/login", userAuthInfo, authControllers.login);
+router.post("/login", authControllers.login);
 
 // User logout
 
