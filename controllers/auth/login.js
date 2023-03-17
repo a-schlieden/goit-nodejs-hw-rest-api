@@ -25,7 +25,7 @@ const login = async (req, res, next) => {
         const payload = {
             id: userByMail._id,
         }
-        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+        const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1d" });
         /// muss ganz User sein !!!!!  PRÜFEN !!!!!! 
 
         res.json({

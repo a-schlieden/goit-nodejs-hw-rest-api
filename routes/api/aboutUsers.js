@@ -2,10 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
-const { authControllers } = require("../../controllers");
+const { userControllers } = require("../../controllers");
 
 //get current User info 
 
-router.get("/current", userAuthInfo, authControllers.getCurrentUser);
+router.get("/current", userControllers.getCurrentUser);
 
 module.exports = router;
