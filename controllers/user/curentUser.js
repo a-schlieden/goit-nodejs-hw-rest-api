@@ -1,4 +1,4 @@
-const { User, schemas } = require("../../models/user");
+//const { User, schemas } = require("../../models/user");
 
 const getCurrentUser = async (req, res, next) => {
   const { email, subscription } = req.user;
