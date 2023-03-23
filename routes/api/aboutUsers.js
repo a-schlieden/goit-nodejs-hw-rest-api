@@ -9,4 +9,8 @@ const { userAuthInfo } = require("../../middlewares");
 
 router.get("/current", userAuthInfo, userControllers.getCurrentUser);
 
+//update Users avatar
+
+router.patch("/avatars", userAuthInfo, userControllers.getCurrentUser);
+
 module.exports = router;
