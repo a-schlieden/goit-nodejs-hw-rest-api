@@ -40,6 +40,7 @@ const login = async (req, res, next) => {
       user: {
         email,
         subscription: userByMail.subscription,
+
       },
     });
   } catch (error) {
