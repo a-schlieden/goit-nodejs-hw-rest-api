@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
-const gravateg = require("gravatar");
-const gravatar = require("gravatar/lib/gravatar");
+const gravatar = require("gravatar");
 const { User, schemas } = require("../../models/user");
 
 const register = async (req, res, next) => {
