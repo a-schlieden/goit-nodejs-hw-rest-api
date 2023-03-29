@@ -12,6 +12,5 @@ describe("test login controller", () => {
     };
     const responce = await request(app).post("/api/auth/login").send(data);
     console.log("Status ", responce.status);
-    console.log("Body ", responce.body);
   }, 3000);
 });
