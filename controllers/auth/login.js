@@ -28,6 +28,15 @@ const login = async (req, res, next) => {
       throw error;
     }
 
+
+    //// prüfen vll.  add in linie 17 !userByMail.verify
+
+    if (!userByMail.verify) {
+      const error = new Error(`Email is no verify`);
+      error.status = 401;
+      throw error;
+    }
+
     const payload = {
       id: userByMail._id,
     };
