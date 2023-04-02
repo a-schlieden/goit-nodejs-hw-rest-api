@@ -28,9 +28,6 @@ const login = async (req, res, next) => {
       throw error;
     }
 
-
-    //// prüfen vll.  add in linie 17 !userByMail.verify
-
     if (!userByMail.verify) {
       const error = new Error(`Email is no verify`);
       error.status = 401;
@@ -49,7 +46,6 @@ const login = async (req, res, next) => {
       user: {
         email,
         subscription: userByMail.subscription,
-
       },
     });
   } catch (error) {
