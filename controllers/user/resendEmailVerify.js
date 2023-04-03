@@ -1,11 +1,8 @@
-
 const { User, schemas } = require("../../models/user");
-const { sendEmail } = "../../helpers";
-const uuid = require("uuid");
+const { sendEmail } = require("../../helpers");
 
 const resendEmailVerify = async (req, res, next) => {
   try {
-
     const { error } = schemas.joeEmailSchema.validate(req.body);
     if (error) {
       error.status = 400;
@@ -14,7 +11,7 @@ const resendEmailVerify = async (req, res, next) => {
 
     const { email } = req.body;
     const userByMail = await User.findOne({ email });
-    if (!userByMail.verify) {
+    if (userByMail.verify) {
       const error = new Error(`Verification has already been passed`);
       error.status = 400;
       throw error;
@@ -33,11 +30,9 @@ const resendEmailVerify = async (req, res, next) => {
       message: "Verification Email send",
       email,
     });
-  }
-  catch (error) {
+  } catch (error) {
     next(error);
   }
-
 };
 
 module.exports = resendEmailVerify;
