@@ -1,39 +1,42 @@
-const { User } = require("../../models/user");
+
+const { User, schemas } = require("../../models/user");
 const { sendEmail } = "../../helpers";
 
 const resendEmailVerify = async (req, res, next) => {
-  const { email } = req.body;
+  try {
 
-  if (!email) {
-    const error = new Error(`missing required field email`);
-    error.status = 400;
-    throw error;
-  }
+    const { error } = schemas.joeEmailSchema.validate(req.body);
+    if (error) {
+      error.status = 400;
+      throw error;
+    }
 
-  const userByMail = await User.findOne({ email });
+    const { email } = req.body;
+    const userByMail = await User.findOne({ email });
+    if (!userByMail.verify) {
+      const error = new Error(`Verification has already been passed`);
+      error.status = 400;
+      throw error;
+    }
 
-  if (!userByMail.verify) {
-    const verificationToken = uuid.v4();
     const verificationMail = {
       to: email,
       subject: "Verification Email",
-      html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}" >Click to confirm</a>`,
+      html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${userByMail.verificationToken}" >Click to confirm</a>`,
     };
     await sendEmail(verificationMail);
-    await User.findByIdAndUpdate(userByMail._id, {
-      verificationToken: null,
-      verify: true,
-    });
+
     res.json({
       status: "success",
       code: 200,
-      message: "Verification email sent",
+      message: "Verification Email send",
+      email,
     });
   }
+  catch (error) {
+    next(error);
+  }
 
-  res.json({
-    messge: "Verification has already been passed",
-  });
 };
 
 module.exports = resendEmailVerify;
