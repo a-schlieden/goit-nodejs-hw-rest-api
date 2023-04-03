@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const uuid = require("uuid");
 const { User, schemas } = require("../../models/user");
-const { sendEmail } = "../../helpers";
+const { sendEmail } = require("../../helpers");
 
 const register = async (req, res, next) => {
   try {
@@ -20,7 +20,6 @@ const register = async (req, res, next) => {
     }
 
     const verificationToken = uuid.v4();
-
     const avatarURL = gravatar.url(email);
     const hashPswd = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     const result = await User.create({

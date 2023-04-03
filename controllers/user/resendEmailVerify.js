@@ -1,5 +1,6 @@
 const { User } = require("../../models/user");
 const { sendEmail } = "../../helpers";
+const uuid = require("uuid");
 
 const resendEmailVerify = async (req, res, next) => {
   const { email } = req.body;
