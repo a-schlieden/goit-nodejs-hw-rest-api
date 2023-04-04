@@ -28,6 +28,12 @@ const login = async (req, res, next) => {
       throw error;
     }
 
+    if (!userByMail.verify) {
+      const error = new Error(`Email is no verify`);
+      error.status = 401;
+      throw error;
+    }
+
     const payload = {
       id: userByMail._id,
     };
@@ -40,7 +46,6 @@ const login = async (req, res, next) => {
       user: {
         email,
         subscription: userByMail.subscription,
-
       },
     });
   } catch (error) {

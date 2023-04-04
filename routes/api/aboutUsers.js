@@ -13,4 +13,12 @@ router.get("/current", userAuthInfo, userControllers.getCurrentUser);
 
 router.patch("/avatars", userAuthInfo, upload.single("avatar"), userControllers.updateAvatar);
 
+//update Verify User Mail
+
+router.get("/verify/:verificationToken", userControllers.emailVerify);
+
+//update resend Verify User Mail
+
+router.post("/verify", userControllers.resendEmailVerify);
+
 module.exports = router;
